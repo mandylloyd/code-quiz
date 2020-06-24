@@ -1,10 +1,15 @@
 const startButton = document.getElementById('start-btn')
 const nextButton = document.getElementById('next-btn')
 const saveButton = document.getElementById('save-btn')
+const highscoresButton = document.getElementById('highscores-btn')
 const questionContainerElement = document.getElementById('question-container')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
 const countdown = document.getElementById('countdown')
+const form = document.getElementById('initials')
+const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
+//const name = JSON.parse(localStorage.getItem("initials")) || [];
+
 
 
 let shuffledQuestions, currentQuestionIndex
@@ -13,42 +18,45 @@ startButton.addEventListener('click', startGame)
 startButton.addEventListener('click', startCountdown)
 saveButton.addEventListener('click', saveScore)
 nextButton.addEventListener('click', () => {
-  currentQuestionIndex++
+  currentQuestionIndex++ 
   setNextQuestion()
 })
 
 function startGame() {
-  startButton.classList.add('hide')
+  countdown.classList.remove('hide');
+  countdown.innerText = "30";
+  startButton.classList.add('hide');
   shuffledQuestions = questions.sort(() => Math.random() - .5)
   currentQuestionIndex = 0
   questionContainerElement.classList.remove('hide')
   setNextQuestion()
 }
 
-function startCountdown() {
+function startCountdown() { 
     var seconds = document.getElementById("countdown").textContent;
     var countdown = setInterval(function() {
         seconds--;
         document.getElementById("countdown").textContent = seconds;
-        if (seconds <= 0 || shuffledQuestions.length - 1 < currentQuestionIndex + 1) clearInterval(countdown);
+        if (seconds <= 0 || shuffledQuestions.length - 1 < currentQuestionIndex + 1) {
+          clearInterval(countdown);
+          questionContainerElement.classList.add('hide')
+          form.classList.remove('hide');
+          saveButton.classList.remove('hide');
+                }
     }, 1000);
- 
   }
 
-function hideButton() {
-  if (shuffledQuestions.length -1 < currentQuestionIndex + 1) {
-    saveButton.classList.remove('hide')
-    }
-}
-
 function saveScore() {
-console.log(countdown.textContent)
+var highscores = [];
+highscores.push(countdown.textContent);
+console.log(highscores);
+saveButton.classList.add('hide');
+countdown.classList.add('hide');
+startButton.innerText = 'Restart'
+startButton.classList.remove('hide')
+localStorage.setItem("highscores", JSON.stringify(highscores));
+var storedScores = JSON.parse(localStorage.getItem("highscores"));
 }
-//function saveScore() {
-//  parseInt(countdown);
-//}
-
-//console.log(saveScore)
 
 function setNextQuestion() {
         resetState()
