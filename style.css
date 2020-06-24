@@ -28,6 +28,7 @@ body {
     grid-template-columns: repeat(2, auto);
     gap: 10px;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .btn {
@@ -37,6 +38,7 @@ body {
     outline: none;
     background-color: slategray;
     color: white;
+    margin-right: 20px;
 }
 
 .btn:hover {
@@ -56,9 +58,10 @@ body {
     font-size: 1.5rem;
     font-weight: bold;
     padding: 10px 20px;
+    margin-bottom: 20px;
 }
 
-.controls {
+.controls, .scorekeeper {
     display: flex;
     justify-content: center;
     align-items: center;

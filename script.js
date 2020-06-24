@@ -1,12 +1,17 @@
 const startButton = document.getElementById('start-btn')
 const nextButton = document.getElementById('next-btn')
+const saveButton = document.getElementById('save-btn')
 const questionContainerElement = document.getElementById('question-container')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
+const countdown = document.getElementById('countdown')
+
 
 let shuffledQuestions, currentQuestionIndex
 
 startButton.addEventListener('click', startGame)
+startButton.addEventListener('click', startCountdown)
+saveButton.addEventListener('click', saveScore)
 nextButton.addEventListener('click', () => {
   currentQuestionIndex++
   setNextQuestion()
@@ -20,9 +25,34 @@ function startGame() {
   setNextQuestion()
 }
 
+function startCountdown() {
+    var seconds = document.getElementById("countdown").textContent;
+    var countdown = setInterval(function() {
+        seconds--;
+        document.getElementById("countdown").textContent = seconds;
+        if (seconds <= 0 || shuffledQuestions.length - 1 < currentQuestionIndex + 1) clearInterval(countdown);
+    }, 1000);
+ 
+  }
+
+function hideButton() {
+  if (shuffledQuestions.length -1 < currentQuestionIndex + 1) {
+    saveButton.classList.remove('hide')
+    }
+}
+
+function saveScore() {
+console.log(countdown.textContent)
+}
+//function saveScore() {
+//  parseInt(countdown);
+//}
+
+//console.log(saveScore)
+
 function setNextQuestion() {
-  resetState()
-  showQuestion(shuffledQuestions[currentQuestionIndex])
+        resetState()
+        showQuestion(shuffledQuestions[currentQuestionIndex])
 }
 
 function showQuestion(question) {
@@ -56,10 +86,7 @@ function selectAnswer(e) {
   })
   if (shuffledQuestions.length > currentQuestionIndex + 1) {
     nextButton.classList.remove('hide')
-  } else {
-    startButton.innerText = 'Restart'
-    startButton.classList.remove('hide')
-  }
+    }
 }
 
 function setStatusClass(element, correct) {
